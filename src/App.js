@@ -2,47 +2,45 @@ import React from "react";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import axios from "axios";
 
-function App() {
-  const playlist = [
-    {
-      name: "A",
-      src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/zhiya.mp3",
-    },
-    {
-      name: "B",
-      src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/ziyounvshen.mp3",
-    },
-    {
-      name: "C",
-      src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3",
-    },
-    {
-      name: "D",
-      src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/suipian.mp3",
-    },
-    {
-      name: "E",
-      src:
-        "https://hanzluo.s3-us-west-1.amazonaws.com/music/yonghengdegangwan.mp3",
-    },
-  ];
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      music: [],
+    };
+  }
 
-  return (
-    <div className="App">
-      {playlist.map((music) => (
-        <ul key={music.name}>
-          <li>
-            <AudioPlayer
-              //autoPlay
-              src={music.src}
-              //onPlay={(e) => console.log("onPlay")}
-            />
-          </li>
-        </ul>
-      ))}
-    </div>
-  );
+  componentDidMount() {
+    axios
+      .get(
+        "/search?redirect_uri=http%253A%252F%252Fguardian.mashape.com%252Fcallback&q=eminem&index=25"
+      )
+      .then((response) => {
+        this.setState({ music: response.data.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  render() {
+    return (
+      <div>
+        {this.state.music.map((music) => (
+          <ul key={music.id}>
+            <li>
+              <AudioPlayer
+                //autoPlay
+                src={music.preview}
+                //onPlay={(e) => console.log("onPlay")}
+              />
+            </li>
+          </ul>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;
