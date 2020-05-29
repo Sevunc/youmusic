@@ -1,0 +1,17 @@
+.Search {
+  text-align: center;
+  margin: auto;
+  color: blue;
+}
+
+.label {
+  width: 500px;
+  height: 40px;
+  margin: auto;
+  color: rgba(56, 55, 55, 0.897);
+  font-size: xx-large;
+}
+.p {
+  color: rgba(56, 55, 55, 0.897);
+  font-size: xx-large;
+}
